@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Place the geocoder input outside the map</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css" rel="stylesheet">
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js"></script>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            #map {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script
+            src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+        <link rel="stylesheet"
+            href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+            type="text/css">
+        <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+        <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
+        <style>
+            .geocoder {
+                position: absolute;
+                z-index: 1;
+                width: 50%;
+                left: 50%;
+                margin-left: -25%;
+                top: 10px;
+            }
+
+            .mapboxgl-ctrl-geocoder {
+                min-width: 100%;
+            }
+
+            #map {
+                margin-top: 75px;
+            }
+        </style>
+
+        <div id="map"></div>
+
+        <div id="geocoder" class="geocoder"></div>
+
+        <pre id="coordinates" class="coordinates"></pre>
+
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1Ijoic3VyYWprYWxlIiwiYSI6ImNrcG9ibmZpbjBzYjkyd3VlYmYwYnQwdG0ifQ.qCGrhbbjWfNtJyx-o9JfEg';
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [76.05, 18.16667],
+                zoom: 13
+            });
+
+
+
+            var geocoder = new MapboxGeocoder({ // Initialize the geocoder
+                accessToken: mapboxgl.accessToken, // Set the access token
+                mapboxgl: mapboxgl, // Set the mapbox-gl instance
+                placeholder: 'Search for places in Berkeley',
+                marker: false, // Do not use the default marker style
+            });
+
+            document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+            // After the map style has loaded on the page,
+            // add a source layer and default styling for a single point
+            map.on('load', function () {
+                map.addSource('single-point', {
+                    type: 'geojson',
+                    data: {
+                        type: 'FeatureCollection',
+                        features: []
+                    }
+                });
+
+                map.addLayer({
+                    id: 'point',
+                    source: 'single-point',
+                    type: 'circle',
+                    paint: {
+                        'circle-radius': 10,
+                        'circle-color': '#118ee4'
+                    }
+                });
+
+                // Listen for the `result` event from the Geocoder
+                // `result` event is triggered when a user makes a selection
+                //  Add a marker at the result's coordinates
+                geocoder.on('result', function (e) {
+                    var marker = new mapboxgl.Marker({
+                        draggable: true
+                    })
+                        .setLngLat(e.result.center)
+                        .addTo(map);
+
+
+                    var lngLat = marker.getLngLat();
+                    coordinates.style.display = 'block';
+                    coordinates.innerHTML =
+                        'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+
+                    function onDragEnd() {
+                        var lngLat = marker.getLngLat();
+                        coordinates.style.display = 'block';
+                        coordinates.innerHTML =
+                            'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+                    }
+
+                    marker.on('dragend', onDragEnd);
+                });
+            });
+// Add the geocoder to the map
+//map.addControl(geocoder);
+
+
+
+        </script>
+
+    </body>
+
+</html>

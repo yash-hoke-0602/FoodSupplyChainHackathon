@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Display a popup on click</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+        <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css" rel="stylesheet">
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js"></script>
+
+        <!-- geocoder -->
+        <script
+            src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+        <link rel='stylesheet'
+            href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css'
+            type='text/css' />
+
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            #map {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+            }
+
+            #menu {
+                position: absolute;
+                background: #efefef;
+                padding: 10px;
+                font-family: 'Open Sans', sans-serif;
+            }
+
+            #bbb {
+                position: absolute;
+            }
+        </style>
+    </head>
+
+    <body id='bodyy'>
+        <style>
+            .mapboxgl-popup {
+                max-width: 400px;
+                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            }
+
+            .coordinates {
+                background: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                position: absolute;
+                bottom: 40px;
+                left: 10px;
+                padding: 5px 10px;
+                margin: 0;
+                font-size: 11px;
+                line-height: 18px;
+                border-radius: 3px;
+                display: none;
+            }
+        </style>
+        <div id="map">
+        </div>
+        <div id="menu">
+            <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+            <!-- See a list of Mapbox-hosted public styles at -->
+            <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+            <label for="satellite-v9">satellite</label>
+            <input id="light-v10" type="radio" name="rtoggle" value="light">
+            <label for="light-v10">light</label>
+            <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+            <label for="dark-v10">dark<label>
+                    <input id="streets-v11" type="radio" name="rtoggle" value="streets">
+                    <label for="streets-v11">streets</label>
+                    <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+                    <label for="outdoors-v11">outdoors</label>
+        </div>
+
+        <script>
+            mapboxgl.accessToken = 'pk.eyJ1Ijoic3VyYWprYWxlIiwiYSI6ImNrcG9ibmZpbjBzYjkyd3VlYmYwYnQwdG0ifQ.qCGrhbbjWfNtJyx-o9JfEg';
+
+            var coordinates = document.getElementById('coordinates');
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/light-v10',
+                center: [76.04, 18.186],
+                // center: [76, 18],
+                zoom: 12
+            });
+
+            var geocoder = new MapboxGeocoder({ // Initialize the geocoder
+                accessToken: mapboxgl.accessToken, // Set the access token
+                placeholder: 'Search for places in Berkeley',
+                mapboxgl: mapboxgl, // Set the mapbox-gl instance
+                marker: true, // Do not use the default marker style
+            });
+
+            // Add the geocoder to the map
+            map.addControl(geocoder);
+
+            map.on('load', function () {
+                // Add a layer showing the places.
+                map.addLayer({
+                    'id': 'places',
+                    'type': 'symbol',
+                    'source': 'places',
+                    'layout': {
+                        'icon-image': '{icon}',
+                        'icon-allow-overlap': true
+                    }
+                });
+
+                // When a click event occurs on a feature in the places layer, open a popup at the
+                // location of the feature, with description HTML from its properties.
+                map.on('click', 'places', function (e) {
+                    var coordinates = e.features[0].geometry.coordinates.slice();
+                    var description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(description)
+                        .addTo(map);
+                });
+
+                // Change the cursor to a pointer when the mouse is over the places layer.
+                map.on('mouseenter', 'places', function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+
+                // Change it back to a pointer when it leaves.
+                map.on('mouseleave', 'places', function () {
+                    map.getCanvas().style.cursor = '';
+                });
+
+                map.addControl(new mapboxgl.GeolocateControl({
+                    positionOptions: {
+                        enableHighAccuracy: true
+                    },
+                    trackUserLocation: true
+                }));
+
+                var layerList = document.getElementById('menu');
+                var inputs = layerList.getElementsByTagName('input');
+
+                function switchLayer(layer) {
+                    console.log(layer)
+                    var layerId = layer.target.id;
+                    map.setStyle('mapbox://styles/mapbox/' + layerId);
+                }
+
+                for (var i = 0; i < inputs.length; i++) {
+                    console.log(inputs[i]);
+                    inputs[i].onclick = switchLayer;
+                }
+
+                geocoder.on('result', function (e) {
+                    map.getSource('single-point').setData(e.result.geometry);
+                });
+            });
+
+            var marker = new mapboxgl.Marker({
+                color: "#3af3d",
+                draggable: true
+            }).setLngLat([76, 18])
+                .addTo(map);
+
+            function onDragEnd() {
+                console.log(marker.getLngLat());
+                var lngLat = marker.getLngLat(); ``
+                coordinates.style.display = 'block';
+                coordinates.innerHTML =
+                    'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+            }
+
+            marker.on('dragend', onDragEnd);
+
+            const switchCenter = () => {
+                // btn.value = 'bbb';
+                // alert('aaa');
+                var a = 40;
+                var b = 40;
+                map.setCenter([a, b]);
+            }
+
+            var btn = document.getElementById('bbb');
+
+            btn.onclick = function () {
+                switchCenter();
+            }
+
+
+        </script>
+
+    </body>
+
+</html>
