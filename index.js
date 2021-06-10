@@ -1,30 +1,34 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const cookieSession = require("cookie-session");
 
-require('./models/user.model')
-require('./models/farmer.model')
+require("./models/user.model");
+require("./models/farmer.model");
 
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const path = require("path");
 const { urlencoded } = require("express");
 const app = express();
 
 // Getting routes
-const userRouter = require('./routes/userRouter');
+const userRouter = require("./routes/userRouter");
 
 dotenv.config();
 
 // setting db
-mongoose.connect(process.env.DB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log('DB connected')
-}).catch((err) => {
-  console.log('Error connecting db');
-  console.error(err);
-});
+mongoose
+  .connect(process.env.DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("DB connected");
+  })
+  .catch((err) => {
+    console.log("Error connecting db");
+    console.error(err);
+  });
 
 // setting views
 app.use(expressLayouts);
@@ -41,21 +45,13 @@ app.use("/js", express.static(__dirname + "public/js"));
 // s
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieSession({ secret: "qwertyuioasdfghjkxcvbnm" }));
+
+app.use("/user", userRouter);
 
 //setting paths
 app.get("/", (req, res) => {
   res.render("home");
-});
-
-app.use("/user", userRouter);
-
-
-
-
-app.get("/register/location/:lng/:lat", (req, res) => {
-  console.log(req.params.lng);
-  console.log(req.params.lat);
-  res.redirect("/login");
 });
 
 app.get("/geoCoder", (req, res) => {

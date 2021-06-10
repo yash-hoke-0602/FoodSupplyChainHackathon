@@ -120,7 +120,7 @@
             element.id = 'confirmButton'
             element.onclick = function () {
               var lngLat = marker.getLngLat();
-              window.location = "/register/location/" + lngLat.lng + "/" + lngLat.lat;
+              window.location = "saveUser/" + lngLat.lng + "/" + lngLat.lat;
             };
             var foo = document.getElementById("sendButton");
             foo.appendChild(element);
