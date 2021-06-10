@@ -35,7 +35,7 @@ app.get("/register/location/:lng/:lat", (req, res) => {
   console.log(req.params.lng);
   console.log(req.params.lat);
   res.redirect("/login");
-});
+}); 
 
 app.get("/geoCoder", (req, res) => {
   res.render("geoCoder");
