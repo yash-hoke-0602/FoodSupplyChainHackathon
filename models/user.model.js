@@ -10,8 +10,8 @@ const userSchema = mongoose.Schema({
         required: true,
         // alias: 'name.email'
     },
-    mobile_no: {
-        type: 'String', 
+    mobileNum: {
+        type: 'String',
         required: true
     },
     password: {
@@ -27,18 +27,24 @@ const userSchema = mongoose.Schema({
             type: 'String',
             required: true
         },
-        taluka: {
-            type: 'String',
-            required: true
-        },
         landmark: {
             type: 'String',
             required: true
         },
-        flat_no: {
+        flatNum: {
+            type: 'String',
+            required: true
+        },
+        pinCode: {
             type: 'String',
             required: true
         }
+    },
+    lattitude: {
+        type: 'String'
+    },
+    longitude: {
+        type: 'String'
     }
 });
 

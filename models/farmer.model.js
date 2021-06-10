@@ -10,7 +10,7 @@ const farmerSchema = mongoose.Schema({
         type: 'String',
         required: true
     },
-    mobile_no: {
+    mobileNum: {
         type: 'String',
         required: true
     },
@@ -41,3 +41,5 @@ const farmerSchema = mongoose.Schema({
         }
     }
 })
+
+module.exports = mongoose.model('Farmer', farmerSchema);
