@@ -1,21 +1,30 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bcrypt = require('bcryptjs')
+const bcrypt = require("bcryptjs");
+const cors = require("cors");
 
 const router = express.Router();
 const path = require("path");
 const app = express();
 
 const User = mongoose.model("User");
+const Stock = mongoose.model("Stock");
 
-const userController = require('../controllers/userController');
-
-const isLoggedIn = require('../other/isLoggedIn');
+const userController = require("../controllers/userController");
+app.use(
+  cors({
+    methods: ["GET", "POST"], //essential for cookie
+    credentials: true,
+  })
+);
+const isLoggedIn = require("../other/isLoggedIn");
 
 router.get("/", isLoggedIn, async (req, res) => {
   // mobileNum is enough for identifying the user
   mobileNum = req.session.mobileNum;
-  const user = await User.findOne({ mobileNum: mobileNum }).catch(err => console.error(err));
+  const user = await User.findOne({ mobileNum: mobileNum }).catch((err) =>
+    console.error(err)
+  );
 
   return res.render("home", { user: user });
 });
@@ -48,5 +57,16 @@ router.get("/location", (req, res) => {
 
 //get lng and lat and rest of user data from session and store in DB
 router.get("/saveUser/:lng/:lat", userController.saveUser);
+
+router.get("/order", (req, res) => {
+  Stock.find({}, (err, result) => {
+    if (err) return res.send("error");
+    res.render("./user/menuPage", { result: result });
+  });
+});
+
+router.post("/order/bill", (req, res) => {
+  console.log(req.body);
+});
 
 module.exports = router;
