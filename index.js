@@ -2,16 +2,22 @@ const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
-const cors = require("cors");
 
 require("./models/user.model");
 require("./models/farmer.model");
 require("./models/stock.model");
 
+const cors = require("cors");
+const corsOptions = {
+  origin: "http://localhost:3333",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
 const dotenv = require("dotenv");
 const path = require("path");
-const { urlencoded } = require("express");
 const app = express();
+
+app.use(cors(corsOptions));
 
 // Getting routes
 const userRouter = require("./routes/userRouter");
@@ -35,12 +41,7 @@ mongoose
 
 // setting views
 app.use(expressLayouts);
-app.use(
-  cors({
-    methods: ["GET", "POST"], //essential for cookie
-    credentials: true,
-  })
-);
+
 app.set("views", path.join(__dirname + "/views"));
 
 app.set("view engine", "ejs");

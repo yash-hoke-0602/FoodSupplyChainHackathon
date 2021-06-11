@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const cors = require("cors");
 
 const router = express.Router();
 const path = require("path");
@@ -11,12 +10,7 @@ const User = mongoose.model("User");
 const Stock = mongoose.model("Stock");
 
 const userController = require("../controllers/userController");
-app.use(
-  cors({
-    methods: ["GET", "POST"], //essential for cookie
-    credentials: true,
-  })
-);
+
 const isLoggedIn = require("../other/isLoggedIn");
 
 router.get("/", isLoggedIn, async (req, res) => {
@@ -67,6 +61,14 @@ router.get("/order", (req, res) => {
 
 router.post("/order/bill", (req, res) => {
   console.log(req.body);
+  req.session.bill = req.body;
+});
+
+router.get("/order/bill", (req, res) => {
+  Stock.find({}, (err, result) => {
+    if (err) return res.send("error");
+    res.render("./user/bill", { title: "bill" });
+  });
 });
 
 module.exports = router;

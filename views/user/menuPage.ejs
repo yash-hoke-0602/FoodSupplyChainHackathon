@@ -23,11 +23,12 @@
             data[id] = count.value;
         }
         function submitOrder() {
-            // var xhr = new XMLHttpRequest();
-            // xhr.open("POST", "localhost:3333/user/order/bill", true);
-            // xhr.setRequestHeader('Content-Type', 'application/json');
-            // xhr.send(JSON.stringify(data));
-            // window.location = "/user/order/bill/"
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://localhost:3333/user/order/bill", true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(data));
+            
+            window.location = "/user/order/bill/"
         }
         </script>
     <meta charset="UTF-8">
