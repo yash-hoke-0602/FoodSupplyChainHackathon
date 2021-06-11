@@ -60,15 +60,17 @@ router.get("/order", (req, res) => {
 });
 
 router.post("/order/bill", (req, res) => {
-  console.log(req.body);
-  req.session.bill = req.body;
+  //console.log(req.body);
+  req.session.body = req.body;
 });
 
 router.get("/order/bill", (req, res) => {
-  Stock.find({}, (err, result) => {
-    if (err) return res.send("error");
-    res.render("./user/bill", { title: "bill" });
-  });
+  //var bill = req.session.bill;
+  // console.log(req.session);
+  // for (var i in bill) {
+  //   console.log("id", i.price);
+  // }
+  res.render("./user/bill", { title: "bill" });
 });
 
 module.exports = router;
