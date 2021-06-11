@@ -10,11 +10,13 @@ const User = mongoose.model("User");
 
 const userController = require('../controllers/userController');
 
-const isUser = require('../other/isUser');
+const isLoggedIn = require('../other/isLoggedIn');
 
-router.get("/", (req, res) => {
-  if (req.session == null) user = "";
-  else user = req.session.mobNum;
+router.get("/", isLoggedIn, async (req, res) => {
+  // mobileNum is enough for identifying the user
+  mobileNum = req.session.mobileNum;
+  const user = await User.findOne({ mobileNum: mobileNum }).catch(err => console.error(err));
+
   return res.render("home", { user: user });
 });
 
@@ -23,25 +25,21 @@ router.get("/login", (req, res) => {
   res.render("./user/login");
 });
 
-router.post("/login", (req, res) => {
-  //authenticate user and store _id in session
-  req.session.mobNum = req.body.username;
-  res.redirect("/user/");
-});
+router.post("/login", userController.loginPost);
 
 // render the register page
 router.get("/register", (req, res) => {
   res.render("./user/register");
 });
 
+//store all the posted data in session
+router.post("/register", userController.registerPost);
+
 //logout user by destroying session
 router.get("/logout", (req, res) => {
   req.session = null;
   res.redirect("/user");
 });
-
-//store all the posted data in session
-router.post("/register", isUser.isUser, userController.registerPost);
 
 //render map to get co-ordinates
 router.get("/location", (req, res) => {

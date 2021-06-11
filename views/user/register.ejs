@@ -1,7 +1,8 @@
 <title> Register</title>
-<%= msg %>
+<%- include ('../partials/message') %>
 
     <body>
+        <p>Until you enter your location on map you will not be registered.</p>
         <div class="container">
             <div class="col-md-8 offset-md-2">
                 <div class="form_bg">
@@ -54,13 +55,16 @@
         </div>
         <script type='text/javascript'>
             function checkPasswords() {
-                console.log(document.getElementsByName('password')[0].value);
-                console.log(document.getElementsByName('re-password')[0].value);
-                if (document.getElementsByName('password')[0].value != document.getElementsByName('re-password')[0].value) {
-                    alert('Passwords are different');
+                if (document.getElementsByName('password')[0].value <= 8) {
+                    alert('Password should be minimum 8 characters long.');
                     return false;
+                    if (document.getElementsByName('password')[0].value != document.getElementsByName('re-password')[0].value) {
+                        alert('Passwords are different');
+                        return false;
+                    }
                 }
-                return true;
+                else
+                    return true;
             };
         </script>
     </body>

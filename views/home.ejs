@@ -4,7 +4,13 @@
 	<div class="container">
 		<div class="col-md-8 offset-md-2">
 			<h1>Home </h1>
-			<a href="/user/logout/">Logout</a>
+			<% if(typeof user !='undefined' ) {%>
+				<%= user %>
+					<h1>
+						<%= user.mobileNum %>
+					</h1>
+					<% } %>
+						<a href="/user/logout/">Logout</a>
 		</div>
 	</div>
 </body>

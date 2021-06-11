@@ -3,6 +3,12 @@ const bcrypt = require('bcryptjs');
 const User = mongoose.model('User');
 
 module.exports.registerPost = async (req, res) => {
+
+
+    if (await User.findOne({ mobileNum: req.body.mobileNum })) {
+        return res.render('./user/register', { msg: 'Mobile Number exists. Please try with another mobile number.' });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -52,3 +58,21 @@ module.exports.saveUser = async (req, res) => {
     res.redirect("/user/login");
 }
 
+module.exports.loginPost = async (req, res) => {
+    const mobileNum = req.body.username;
+    const password = req.body.password;
+
+    const user = await User.findOne({ mobileNum: mobileNum });
+
+    const is_valid = await bcrypt.compare(password, user.password);
+
+    if (user && is_valid) {
+        // if user is valid session is begun
+        req.session.mobileNum = mobileNum;
+    }
+    else {
+        return res.render('./user/login', { msg: 'Please enter a valid number or password.' })
+    }
+
+    res.redirect('/user');
+}
