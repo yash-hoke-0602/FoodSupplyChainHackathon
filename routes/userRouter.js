@@ -17,7 +17,7 @@ router.get("/", isLoggedIn, async (req, res) => {
   // mobileNum is enough for identifying the user
   mobileNum = req.session.mobileNum;
   const user = await User.findOne({ mobileNum: mobileNum }).catch((err) =>
-    console.error(err)
+    console.error(err) 
   );
 
   return res.render("home", { user: user });

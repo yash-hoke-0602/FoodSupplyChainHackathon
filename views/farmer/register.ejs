@@ -1,0 +1,70 @@
+<title> Register</title>
+<%- include ('../partials/message') %>
+
+    <body>
+        <p>Until you enter your location on map you will not be registered.</p>
+        <div class="container">
+            <div class="col-md-8 offset-md-2">
+                <div class="form_bg">
+                    <form method="POST" action="/user/register" onSubmit="return checkPasswords(this)">
+                        <h1 class="text-center mb-3 mt-5 fw-bold fs-1"><b>Register</b></h1>
+
+                        <br />
+                        <div class="form-group mb-3">
+                            <input type="email" name="email" class="form-control" placeholder="Email id">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <input type="text" name="fullName" class="form-control" placeholder="Full Name ">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <input type="text" name="mobileNum" class="form-control" placeholder="Mobile Number ">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="password" name="password" class="form-control" placeholder="Password">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="password" name="re-password" class="form-control"
+                                placeholder="Confirm Password">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="state" name="state" class="form-control" placeholder="State">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" name="district" class="form-control" placeholder="District">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" name="landMark" class="form-control" placeholder="Landmark">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" name="flatNumber" class="form-control"
+                                placeholder="Apartment Name & Flat Number">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" name="pinCode" class="form-control" placeholder="Pin Code">
+                        </div>
+                        <br />
+                        <div class="align-center mb-3 col-md-8 offset-md-5">
+                            <button type="submit" class="btn btn-default btn-dark">Register</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script type='text/javascript'>
+            function checkPasswords() {
+                if (document.getElementsByName('password')[0].value <= 8) {
+                    alert('Password should be minimum 8 characters long.');
+                    return false;
+                    if (document.getElementsByName('password')[0].value != document.getElementsByName('re-password')[0].value) {
+                        alert('Passwords are different');
+                        return false;
+                    }
+                }
+                else
+                    return true;
+            };
+        </script>
+    </body>

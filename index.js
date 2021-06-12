@@ -15,6 +15,7 @@ const corsOptions = {
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
+
 const dotenv = require("dotenv");
 const path = require("path");
 const app = express();
@@ -24,6 +25,7 @@ app.use(cors(corsOptions));
 // Getting routes
 const userRouter = require("./routes/userRouter");
 const employeeRouter = require("./routes/employeeRouter");
+const farmerRouter = require('./routes/farmerRouter')
 
 dotenv.config();
 
@@ -61,6 +63,7 @@ app.use(cookieSession({ secret: "qwertyuioasdfghjkxcvbnm" }));
 
 app.use("/user", userRouter);
 app.use("/employee", employeeRouter);
+app.use('/farmer', farmerRouter);
 
 //setting paths
 app.get("/", isLoggedIn, (req, res) => {
