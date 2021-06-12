@@ -1,12 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const { v4: uuidv4 } = require("uuid");
 
 const router = express.Router();
 const path = require("path");
 const app = express();
 
+const OrderDetail = mongoose.model("OrderDetail");
 const User = mongoose.model("User");
+const ActiveOrder = mongoose.model("ActiveOrder");
 const Stock = mongoose.model("Stock");
 
 const userController = require("../controllers/userController");
@@ -17,7 +20,7 @@ router.get("/", isLoggedIn, async (req, res) => {
   // mobileNum is enough for identifying the user
   mobileNum = req.session.mobileNum;
   const user = await User.findOne({ mobileNum: mobileNum }).catch((err) =>
-    console.error(err) 
+    console.error(err)
   );
 
   return res.render("home", { user: user });
@@ -59,18 +62,69 @@ router.get("/order", (req, res) => {
   });
 });
 
-router.post("/order/bill", (req, res) => {
-  //console.log(req.body);
-  req.session.body = req.body;
+router.post("/order/cart", (req, res) => {
+  req.session.cart = req.body;
+  // console.log("session", req.session.cart);
+  res.send({ msg: "Done" });
 });
 
 router.get("/order/bill", (req, res) => {
-  //var bill = req.session.bill;
+  console.log("next page", req.session.cart);
+  var bill = req.session.cart;
   // console.log(req.session);
   // for (var i in bill) {
-  //   console.log("id", i.price);
+  //   console.log("id", bill[i]);
   // }
-  res.render("./user/bill", { title: "bill" });
+  res.render("./user/bill", { bill: bill });
+});
+
+router.get("/order/bill/cancel", (req, res) => {
+  req.session.cart = null;
+  res.redirect("/user/order");
+});
+
+router.get("/order/bill/placeOrder", async (req, res) => {
+  //send Data to active orders
+  userMob = req.session.mobileNum;
+  const user = await User.findOne({ mobileNum: userMob });
+  const orderId = uuidv4();
+  console.log(orderId);
+
+  var newOrder = new ActiveOrder();
+  newOrder.userId = user._id;
+  newOrder.orderId = orderId;
+
+  await newOrder
+    .save()
+    .then(() => {
+      console.log("Order Saved");
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.send("Error saving user" + err);
+    });
+
+  var orders = req.session.cart;
+
+  var orderDetail = new OrderDetail();
+
+  for (var i in orders) {
+    OrderDetail.create(
+      {
+        orderId: orderId,
+        itemName: orders[i].name,
+        itemPrice: orders[i].price,
+        itemQuantity: orders[i].count,
+      },
+      (err, res) => {
+        if (err) return res.send(err);
+        console.log("added");
+      }
+    );
+  }
+
+  req.session.cart = null;
+  res.redirect("/user");
 });
 
 module.exports = router;

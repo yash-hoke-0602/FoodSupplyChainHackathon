@@ -30,11 +30,12 @@
                 count:increment
             }
         }
-        function submitOrder() {
+        async function submitOrder () {
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:3333/user/order/bill", true);
+            xhr.withCredentials = true;
+            xhr.open("POST", "http://localhost:3333/user/order/cart", false);
             xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify(data));
+            await xhr.send(JSON.stringify(data));
             
             window.location = "/user/order/bill/"
         }

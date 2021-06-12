@@ -1,3 +1,40 @@
 <body>
-    <h2>title = <%= title %></h2>
+        <h1 style="margin-left: 42%;">Total Bill</h1>
+        <hr>
+            <table  style="border : black solid;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 7%;
+            
+            font-size: 30px;align-content: center;">
+                <tr style="border: black solid;">
+                    <th style="width: 40%;">Item Name</th>
+                    <th style="width: 25%;">Price</th>
+                    <th style="width: 25%;">Quantity</th>
+                    <th style="width: 25%;">Total</th>
+                </tr>
+                <% var total=0 %>
+                <%  for (var i in bill) { %>
+                    <tr>
+                        <td><%= bill[i].name %></td>
+                        <td><%= bill[i].price %></td>
+                        <td><%= bill[i].count %></td>
+                        <td><%= bill[i].price * bill[i].count %></td>
+                        <% total = total + (bill[i].price * bill[i].count) %>
+                    </tr>
+                <% } %>
+                <tr><td></td><td></td><td></td><td></td></tr>
+                <tr style="border: black solid;">
+                    <th>Total</th>
+                    <th></th>
+                    <th></th>
+                    <th><%= total %></th>
+                </tr>
+            </table>
+            <br>
+            <hr>
+            <div style="margin-left: 40%; margin-top: 5%;">
+                <a href="cancel"><button class="btn btn-danger">Cancel</button></a>
+                <a href="placeOrder"><button class="btn btn-primary" style="margin-left: 10%;">Order</button></a>
+            </div>
 </body>

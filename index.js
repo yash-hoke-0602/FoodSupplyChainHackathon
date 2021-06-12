@@ -6,12 +6,13 @@ const cookieSession = require("cookie-session");
 require("./models/user.model");
 require("./models/farmer.model");
 require("./models/stock.model");
+require("./models/activeOrders.model");
+require("./models/orderDetail");
 
-const isLoggedIn = require("./other/isLoggedIn")
+const isLoggedIn = require("./other/isLoggedIn");
 
 const cors = require("cors");
 const corsOptions = {
-  origin: "http://localhost:3333",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
@@ -25,7 +26,7 @@ app.use(cors(corsOptions));
 // Getting routes
 const userRouter = require("./routes/userRouter");
 const employeeRouter = require("./routes/employeeRouter");
-const farmerRouter = require('./routes/farmerRouter')
+const farmerRouter = require("./routes/farmerRouter");
 
 dotenv.config();
 
@@ -63,7 +64,7 @@ app.use(cookieSession({ secret: "qwertyuioasdfghjkxcvbnm" }));
 
 app.use("/user", userRouter);
 app.use("/employee", employeeRouter);
-app.use('/farmer', farmerRouter);
+app.use("/farmer", farmerRouter);
 
 //setting paths
 app.get("/", isLoggedIn, (req, res) => {

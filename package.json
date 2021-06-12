@@ -14,7 +14,8 @@
     "express-ejs-layouts": "^2.5.0",
     "mongoose": "^5.12.13",
     "nodemon": "^2.0.7",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {},
   "scripts": {
