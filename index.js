@@ -7,6 +7,8 @@ require("./models/user.model");
 require("./models/farmer.model");
 require("./models/stock.model");
 
+const isLoggedIn = require("./other/isLoggedIn")
+
 const cors = require("cors");
 const corsOptions = {
   origin: "http://localhost:3333",
@@ -61,7 +63,7 @@ app.use("/user", userRouter);
 app.use("/employee", employeeRouter);
 
 //setting paths
-app.get("/", (req, res) => {
+app.get("/", isLoggedIn, (req, res) => {
   res.render("home");
 });
 
