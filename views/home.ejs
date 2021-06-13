@@ -1,16 +1,28 @@
-<title> Home</title>
+<title>Admin Home</title>
 
-<body>
-	<div class="container">
+<body style="background-color: rgb(223, 220, 219);">
+	<div >
 		<div class="col-md-8 offset-md-2">
-			<h1>Home </h1>
 			<% if(typeof user !='undefined' ) {%>
-				<%= user %>
-					<h1>
-						<%= user.mobileNum %>
-					</h1>
-					<% } %>
-						<a href="/user/logout/">Logout</a>
+				<h1>User Home 
+				
+				</h1>
+				<a href="/user/order"><button class="btn btn-dark" style="position:absolute; margin-left: 40%;margin-top: 1%;">Order</button></a> 
+				<a href="/user/myOrders"><button class="btn btn-dark" style="margin-left: 48%;position:absolute;margin-top: 1%;">MyOrders</button></a> 
+					<a href="/user/logout"><button class="btn btn-dark" style="margin-left: 58%;position:absolute;margin-top: 1%;">Logout</button></a> 
+                    
+                    <hr>
+        
+                <h2 style="margin-left: 30%;margin-top: 10%;">Welcome <%= user.name %></h2>
+                
+                <% }else { %>
+                    <h1>User Home <a href="/user/login"><button class="btn btn-primary" style="margin-left: 60%;">Login</button></a>  </h1>
+                    
+                    <hr>
+        
+                <h2 style="margin-left: 35%;margin-top: 20%;">Please Login</h2>
+            <% } %>
+            
 		</div>
 	</div>
 </body>

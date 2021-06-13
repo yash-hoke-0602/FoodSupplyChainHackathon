@@ -48,12 +48,12 @@ router.get("/logout", (req, res) => {
 });
 
 //render map to get co-ordinates
-router.get("/location", isLoggedIn, (req, res) => {
+router.get("/location", (req, res) => {
   res.render("getCoordinates");
 });
 
 //get lng and lat and rest of user data from session and store in DB
-router.get("/saveUser/:lng/:lat", isLoggedIn, userController.saveUser);
+router.get("/saveUser/:lng/:lat", userController.saveUser);
 
 router.get("/order", isLoggedIn, (req, res) => {
   Stock.find({}, (err, result) => {

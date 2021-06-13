@@ -50,13 +50,12 @@
         margin-top: 75px;
       }
     </style>
-    <p style="position: absolute;">Until you enter your location on map you will not be registered.</p>
 
     <div id="map"></div>
 
     <div id="geocoder" class="geocoder"></div>
 
-    <div id="sendButton"></div>
+    <div id="sendButton" ></div>
 
     <script>
       mapboxgl.accessToken = 'pk.eyJ1Ijoic3VyYWprYWxlIiwiYSI6ImNrcG9ibmZpbjBzYjkyd3VlYmYwYnQwdG0ifQ.qCGrhbbjWfNtJyx-o9JfEg';
@@ -117,8 +116,11 @@
             //Assign different attributes to the element. 
             element.type = 'button';
             element.value = 'Confirm';
+            element.className = 'btn-primary btn';
+            
+            element.style = 'margin-left:90%;  ';
             element.name = 'confirmButton';
-            element.id = 'confirmButton'
+            element.id = 'confirmButton';
             element.onclick = function () {
               var lngLat = marker.getLngLat();
               window.location = "saveUser/" + lngLat.lng + "/" + lngLat.lat;

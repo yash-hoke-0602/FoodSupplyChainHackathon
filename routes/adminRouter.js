@@ -27,4 +27,10 @@ router.post("/login", (req, res) => {
   res.redirect("/admin");
 });
 
+router.get("/allOrders", (req, res) => {
+  res.render("./admin/allorders");
+});
+
+router.get("/getUsers", (req, res) => {});
+
 module.exports = router;
