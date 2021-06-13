@@ -42,7 +42,7 @@ router.get("/allOrders", (req, res) => {
 
       allUsers.push(allrUsers);
     }
-    console.log(allUsers);
+    // console.log(allUsers);
 
     res.render("./admin/allOrders", { allUsers: allUsers });
   });

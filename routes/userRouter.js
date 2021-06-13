@@ -69,7 +69,7 @@ router.post("/order/cart", isLoggedIn, (req, res) => {
 });
 
 router.get("/order/bill", isLoggedIn, (req, res) => {
-  console.log("next page", req.session.cart);
+  // console.log("next page", req.session.cart);
   var bill = req.session.cart;
   // console.log(req.session);
   // for (var i in bill) {
@@ -88,7 +88,7 @@ router.get("/order/bill/placeOrder", isLoggedIn, async (req, res) => {
   userMob = req.session.mobileNum;
   const user = await User.findOne({ mobileNum: userMob });
   const orderId = uuidv4();
-  console.log(orderId);
+  // console.log(orderId);
 
   var newOrder = new ActiveOrder();
   newOrder.userId = user._id;
@@ -97,7 +97,7 @@ router.get("/order/bill/placeOrder", isLoggedIn, async (req, res) => {
   await newOrder
     .save()
     .then(() => {
-      console.log("Order Saved");
+      // console.log("Order Saved");
     })
     .catch((err) => {
       console.error(err);
@@ -118,7 +118,7 @@ router.get("/order/bill/placeOrder", isLoggedIn, async (req, res) => {
       },
       (err, res) => {
         if (err) return res.send(err);
-        console.log("added");
+        // console.log("added");
       }
     );
   }
@@ -145,7 +145,7 @@ router.get("/myOrders", isLoggedIn, async (req, res) => {
 
       allOrders.push(allOrdersDetails);
     }
-    console.log(allOrders);
+    // console.log(allOrders);
 
     res.render("./user/myOrders", { allOrders: allOrders });
   });
@@ -154,12 +154,12 @@ router.get("/myOrders", isLoggedIn, async (req, res) => {
 router.get("/cancelOrder/:orderId", isLoggedIn, async (req, res) => {
   ActiveOrder.deleteOne({ orderId: req.params.orderId }, (err) => {
     if (err) return res.send(err);
-    console.log(" order deleted");
+    // console.log(" order deleted");
   });
 
   OrderDetail.deleteMany({ orderId: req.params.orderId }, (err) => {
     if (err) return res.send(err);
-    console.log(" orderDetails deleted");
+    // console.log(" orderDetails deleted");
   });
 
   res.redirect("/user/myOrders");

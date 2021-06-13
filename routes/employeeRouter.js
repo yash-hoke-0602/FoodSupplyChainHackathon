@@ -19,11 +19,11 @@ router.post("/addData", async (req, res) => {
   await newStock
     .save()
     .then(() => {
-      console.log("Stock Saved");
+      // console.log("Stock Saved");
       res.send("Done");
     })
     .catch((err) => {
-      console.error(err);
+      // console.error(err);
       return res.send("Error saving stock" + err);
     });
 });

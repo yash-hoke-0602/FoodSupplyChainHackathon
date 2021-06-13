@@ -75,5 +75,5 @@ app.get("/", (req, res) => {
   res.render("landingPage");
 });
 
-const PORT = 3333;
+const PORT = 3333 || process.env.PORT;
 app.listen(PORT, () => console.log("Listening on 3333"));
