@@ -127,4 +127,42 @@ router.get("/order/bill/placeOrder", isLoggedIn, async (req, res) => {
   res.redirect("/user");
 });
 
+router.get("/myOrders", isLoggedIn, async (req, res) => {
+  const userMob = req.session.mobileNum;
+  const user = await User.findOne({ mobileNum: userMob });
+  const userId = user._id;
+
+  //const order = await User.findOne({ mobileNum: userMob });
+  ActiveOrder.find({ userId: userId }, "orderId", async (err, result) => {
+    if (err) return res.send("error");
+    var allOrders = [];
+
+    for (var i of result) {
+      // console.log(i.orderId);
+
+      const allOrdersDetails = await OrderDetail.find({ orderId: i.orderId });
+      // console.log(allOrders);
+
+      allOrders.push(allOrdersDetails);
+    }
+    console.log(allOrders);
+
+    res.render("./user/myOrders", { allOrders: allOrders });
+  });
+});
+
+router.get("/cancelOrder/:orderId", isLoggedIn, async (req, res) => {
+  ActiveOrder.deleteOne({ orderId: req.params.orderId }, (err) => {
+    if (err) return res.send(err);
+    console.log(" order deleted");
+  });
+
+  OrderDetail.deleteMany({ orderId: req.params.orderId }, (err) => {
+    if (err) return res.send(err);
+    console.log(" orderDetails deleted");
+  });
+
+  res.redirect("/user/myOrders");
+});
+
 module.exports = router;

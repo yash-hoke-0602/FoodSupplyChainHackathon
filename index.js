@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 
 require("./models/user.model");
+require("./models/admin.model");
 require("./models/farmer.model");
 require("./models/stock.model");
 require("./models/activeOrders.model");
@@ -24,6 +25,7 @@ const app = express();
 app.use(cors(corsOptions));
 
 // Getting routes
+const adminRouter = require("./routes/adminRouter");
 const userRouter = require("./routes/userRouter");
 const employeeRouter = require("./routes/employeeRouter");
 const farmerRouter = require("./routes/farmerRouter");
@@ -62,6 +64,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieSession({ secret: "qwertyuioasdfghjkxcvbnm" }));
 
+app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/employee", employeeRouter);
 app.use("/farmer", farmerRouter);

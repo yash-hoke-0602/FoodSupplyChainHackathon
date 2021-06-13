@@ -1,0 +1,50 @@
+<body>
+    <br>  
+    <h2 style="margin-left :40%;">My Orders</h2>
+    <hr>
+    <% for(var i of allOrders) {%>
+        <% var orderId %>
+        <% var total = 0 %>
+        <h4 style="margin-left: 10%;">Order Bill</h4>
+        <table style="margin-left: 10%;">
+            <tr>
+                <th style="width: 40%;">Item Name</th>
+                <th style="width: 25%;">Price</th>
+                <th style="width: 25%;">Quantity</th>
+                <th style="width: 25%;">Total</th>
+            </tr>
+            <% for(var j of i) {%>
+                <% orderId = j.orderId %>
+                <tr>
+                    <td>
+                        <%= j.itemName %>
+                    </td>
+                    <td>
+
+                        <%= j.itemPrice %>
+                    </td>
+                    <td>
+                        <%= j.itemQuantity %>
+
+                    </td>
+                    <td><%= j.itemPrice * j.itemQuantity %></td>
+                    <% total = total + (j.itemPrice * j.itemQuantity) %>
+                </tr>
+                
+                <br>
+            <% } %>
+            <tr>
+                <th>Total</th>
+                <th></th>
+                <th></th>
+                <th><%= total %></th>
+            </tr>
+        </table>
+            <div style="margin-left :90%;  ">
+                <a href="cancelOrder/<%= orderId %>"><button class="btn btn-danger">Cancel Order</button></a>
+            </div>
+        
+            <br>
+            <hr>
+    <% } %>
+</body>

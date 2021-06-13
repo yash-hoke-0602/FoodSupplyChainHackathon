@@ -1,0 +1,20 @@
+<title>Admin Home</title>
+
+<body>
+	<div class="container">
+		<div class="col-md-8 offset-md-2">
+			<h1>Admin Home </h1>
+			<% if(username !=null ) {%>
+				<%= username %>
+					
+                <a href="/admin/logout/"><button class="btn btn-dark">Logout</button></a>
+			<% }else { %>
+        
+                <h2>Please Login</h2>
+            <% } %>
+            
+		</div>
+	</div>
+</body>
+
+</html>
