@@ -48,27 +48,27 @@ router.get("/logout", (req, res) => {
 });
 
 //render map to get co-ordinates
-router.get("/location", (req, res) => {
+router.get("/location", isLoggedIn, (req, res) => {
   res.render("getCoordinates");
 });
 
 //get lng and lat and rest of user data from session and store in DB
-router.get("/saveUser/:lng/:lat", userController.saveUser);
+router.get("/saveUser/:lng/:lat", isLoggedIn, userController.saveUser);
 
-router.get("/order", (req, res) => {
+router.get("/order", isLoggedIn, (req, res) => {
   Stock.find({}, (err, result) => {
     if (err) return res.send("error");
     res.render("./user/menuPage", { result: result });
   });
 });
 
-router.post("/order/cart", (req, res) => {
+router.post("/order/cart", isLoggedIn, (req, res) => {
   req.session.cart = req.body;
   // console.log("session", req.session.cart);
   res.send({ msg: "Done" });
 });
 
-router.get("/order/bill", (req, res) => {
+router.get("/order/bill", isLoggedIn, (req, res) => {
   console.log("next page", req.session.cart);
   var bill = req.session.cart;
   // console.log(req.session);
@@ -78,12 +78,12 @@ router.get("/order/bill", (req, res) => {
   res.render("./user/bill", { bill: bill });
 });
 
-router.get("/order/bill/cancel", (req, res) => {
+router.get("/order/bill/cancel", isLoggedIn, (req, res) => {
   req.session.cart = null;
   res.redirect("/user/order");
 });
 
-router.get("/order/bill/placeOrder", async (req, res) => {
+router.get("/order/bill/placeOrder", isLoggedIn, async (req, res) => {
   //send Data to active orders
   userMob = req.session.mobileNum;
   const user = await User.findOne({ mobileNum: userMob });
