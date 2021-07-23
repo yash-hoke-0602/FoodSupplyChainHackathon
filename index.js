@@ -34,10 +34,13 @@ dotenv.config();
 
 // setting db
 mongoose
-  .connect(process.env.DB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://user0:Passw0rd@cluster0.v23ay.mongodb.net/HackerearthProject01?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => {
     console.log("DB connected");
   })

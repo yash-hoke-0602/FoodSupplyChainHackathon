@@ -27,7 +27,13 @@ body { margin: 0; padding: 0; }
         display: none;
     }
 </style>
-
+<style>
+    .mapboxgl-popup-content{
+        color: white;
+        background-color: maroon;
+        font: 100;
+}
+</style>
 <div id="map"></div>
 <pre id="coordinates" class="coordinates"></pre>
 
@@ -39,15 +45,23 @@ body { margin: 0; padding: 0; }
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [0, 0],
-        zoom: 2
+        center: [74.743,19.0],
+        
+        zoom: 10
     });
     "<% for(var i of allUsers) {%>"
         "<% for(var j of i) {%>"
+       
+        var popup = new mapboxgl.Popup({ offset: 40 , className: 'popUp' }).setText(
+            "UserId=<%=j._id%>"+"\nName=<%=j.name%>"+"\nFlat No.=<%=j.address.flatNum%>"+"\nLandmark=<%=j.address.landmark%>"+"\nDistrict=<%=j.address.district%>"+"\nPincode=<%=j.address.pinCode%>"
+        );
         var marker = new mapboxgl.Marker({
-            draggable: false
+            draggable: false,
+            color:"red",
+            scale:1
         })
             .setLngLat(["<%= j.longitude %>","<%= j.lattitude %>"])
+            .setPopup(popup)
             .addTo(map);
         "<% } %>"
     "<% } %>"
