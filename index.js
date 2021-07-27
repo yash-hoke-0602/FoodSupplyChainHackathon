@@ -35,7 +35,7 @@ dotenv.config();
 // setting db
 mongoose
   .connect(
-    "mongodb+srv://user0:Passw0rd@cluster0.v23ay.mongodb.net/HackerearthProject01?retryWrites=true&w=majority",
+    process.env.DB,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
