@@ -1,57 +1,125 @@
-
 <head>
-    <script>
+	<title>User-Home</title>
+	<!-- Meta tag Keywords -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8" />
+	<meta name="keywords" content="FarmBizz Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"
+	/>
+	<!-- //Meta tag Keywords -->
 
-        var data = {}
+	<!-- Favicon -->
+    <link rel="icon" href="images/favicon.png" type="image/x-icon" />
+	<!-- Custom-Files -->
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<!-- Bootstrap-Core-CSS -->
+	<link rel="stylesheet" href="/css/lightbox.css">
+	<!-- lightbox css -->
+	<link rel="stylesheet" href="/css/owl.carousel.css" type="text/css" media="all">
+	<link rel="stylesheet" href="/css/owl.theme.css" type="text/css" media="all">
+	<!-- Carousel (for News section) -->
+	<link rel="stylesheet" href="/css/flexslider.css" type="text/css" media="screen" property="" />
+	<!-- Flexslider css (for Testimonials) -->
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+	<!-- Style-CSS -->
+	<link rel="stylesheet" href="/css/fontawesome-all.css">
+	<!-- Font-Awesome-Icons-CSS -->
+	<!-- //Custom-Files -->
 
-        function addItem1(id,max,price,name) {
-            var count = document.getElementById(id);
-            var increment = parseInt(count.value) + 1;
-            if(increment > parseInt(max)){
-                increment = parseInt(max);
+	<!-- Web-Fonts -->
+	<link href="//fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i,900,900i&amp;subset=cyrillic,latin-ext,vietnamese"
+	    rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=devanagari,latin-ext"
+	    rel="stylesheet">
+	<!-- //Web-Fonts -->
+
+        <script>
+    
+            var data = {}
+    
+            function addItem1(id,max,price,name) {
+                var count = document.getElementById(id);
+                var increment = parseInt(count.value) + 1;
+                if(increment > parseInt(max)){
+                    increment = parseInt(max);
+                }
+                count.value=increment;
+                data[id]={
+                    price:price,
+                    name:name,
+                    count:increment
+                }
             }
-            count.value=increment;
-            data[id]={
-                price:price,
-                name:name,
-                count:increment
+            function removeItem1(id,price,name) {
+                var count = document.getElementById(id);
+                var increment = parseInt(count.value) - 1;
+                if(increment < 0){
+                    increment = 0;
+                }
+                count.value=increment;
+                data[id]={
+                    price:price,
+                    name:name,
+                    count:increment
+                }
             }
-        }
-        function removeItem1(id,price,name) {
-            var count = document.getElementById(id);
-            var increment = parseInt(count.value) - 1;
-            if(increment < 0){
-                increment = 0;
+            async function submitOrder () {
+                var xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.open("POST", "http://localhost:3333/user/order/cart", false);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                await xhr.send(JSON.stringify(data));
+                
+                window.location = "/user/order/bill/"
             }
-            count.value=increment;
-            data[id]={
-                price:price,
-                name:name,
-                count:increment
-            }
-        }
-        async function submitOrder () {
-            var xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-            xhr.open("POST", "http://localhost:3333/user/order/cart", false);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            await xhr.send(JSON.stringify(data));
-            
-            window.location = "/user/order/bill/"
-        }
-        </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>menu</title>
+            </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>menu</title>
 </head>
-<body style="background-color: rgb(223, 220, 219);" >
+<body  >
+    		<!-- navigation -->
+		<nav class="navbar navbar-expand-lg navbar-light px-sm-5 px-3 py-0">
+			<h1>
+				<a class="navbar-brand py-2" href="/"><img src="/images/logo.png" alt="logo"></a>
+			</h1>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+			    aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto px-lg-4 py-4">
+					<li class="nav-item mx-lg-3 my-lg-0 my-3">
+						<a class="nav-link js-scroll-trigger" href="/">Home
+							
+						</a>
+					</li>
+                    <li class="nav-item mx-lg-3 my-lg-0 my-3">
+						<a class="nav-link js-scroll-trigger" href="/user">My Account</a>
+					</li>
+
+					<li class="nav-item mx-lg-3 my-lg-0 my-3">
+						<a class="nav-link js-scroll-trigger" href="/user/myOrders">My Orders</a>
+					</li>
+					<li class="nav-item mx-lg-3">
+						<a class="nav-link active" href="/user/order">Pantry</a>
+					</li>
+					<li class="nav-item mx-lg-3 my-lg-0 my-3">
+						<a class="nav-link js-scroll-trigger" href="/user/logout">Logout</a>
+					</li>
+					
+				</ul>
+			</div>
+		</nav>
+        <hr>
+		<!-- //navigation -->
+
+
     <div style="position:fixed ; background-color: orange;top: 90%; width: 100%;height: 10%;">
         <button style="left: 90%;position: relative;margin-top: 1%;" class="btn btn-primary" onclick="submitOrder()">Order</button>
     </div>
     <div>
         <br>
-        <br>
-        <hr>
     <h2>Vegetables</h2>
     <br>
     <div class="row justify-content-start">

@@ -1,13 +1,31 @@
 <title> Login</title>
 
+
 <body>
+    	<!-- header -->
+	<header>
+		<!-- navigation -->
+		<nav class="navbar navbar-expand-lg navbar-light px-sm-5 px-3 py-0">
+			<h1>
+				<a class="navbar-brand py-2" href="/"><img src="/images/logo.png" alt="logo"></a>
+			</h1>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+			    aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+		</nav>
+		<!-- //navigation -->
+	</header>
+
     <%- include('../partials/message') %>
         <div class="container">
             <div class="col-md-8 offset-md-2">
                 <div class="form_bg">
                     <form method="POST" action="/admin/login" onSubmit="return checkMobileNumber()">
                         <h2 class="text-center mb-3 mt-5 fs-1">Admin Login </h2>
-
+                        <br>
+                        <hr>
                         <br />
                         <div aclass="form-group mb-3">
                             <input type="tel" class="form-control" name="username" placeholder="user name">

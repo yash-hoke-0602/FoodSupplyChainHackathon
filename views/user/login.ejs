@@ -1,11 +1,62 @@
-<title> Login</title>
+<head>
+	<title>User-Login</title>
+	<!-- Meta tag Keywords -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8" />
+	<meta name="keywords" content="FarmBizz Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"
+	/>
+	<!-- //Meta tag Keywords -->
+
+	<!-- Favicon -->
+	<link rel="icon" href="/images/favicon.png" type="image/x-icon" />
+	<!-- Custom-Files -->
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<!-- Bootstrap-Core-CSS -->
+	<link rel="stylesheet" href="/css/lightbox.css">
+	<!-- lightbox css -->
+	<link rel="stylesheet" href="/css/owl.carousel.css" type="text/css" media="all">
+	<link rel="stylesheet" href="/css/owl.theme.css" type="text/css" media="all">
+	<!-- Carousel (for News section) -->
+	<link rel="stylesheet" href="/css/flexslider.css" type="text/css" media="screen" property="" />
+	<!-- Flexslider css (for Testimonials) -->
+	<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+	<!-- Style-CSS -->
+	<link rel="stylesheet" href="/css/fontawesome-all.css">
+	<!-- Font-Awesome-Icons-CSS -->
+	<!-- //Custom-Files -->
+
+	<!-- Web-Fonts -->
+	<link href="//fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i,900,900i&amp;subset=cyrillic,latin-ext,vietnamese"
+		rel="stylesheet">
+	<link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;subset=devanagari,latin-ext"
+		rel="stylesheet">
+	<!-- //Web-Fonts -->
+</head>
 
 <body>
+	
+	<!-- header -->
+	<header>
+		<!-- navigation -->
+		<nav class="navbar navbar-expand-lg navbar-light px-sm-5 px-3 py-0">
+			<h1>
+				<a class="navbar-brand py-2" href="/"><img src="/images/logo.png" alt="logo"></a>
+			</h1>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+			    aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+		</nav>
+		<!-- //navigation -->
+	</header>
 	<%- include('../partials/message') %>
 		<div class="container">
 			<div class="col-md-8 offset-md-2">
 				<div class="form_bg">
 					<form method="POST" action="/user/login" onSubmit="return checkMobileNumber()">
+						<div class="text-center mb-3 mt-5 fs-1">------</div>
+						
 						<h2 class="text-center mb-3 mt-5 fs-1">Login </h2>
 
 						<br />
